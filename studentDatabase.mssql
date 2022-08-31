@@ -1,0 +1,137 @@
+CREATE TABLE students(
+	student_id CHAR(10) UNIQUE PRIMARY KEY,
+	student_name CHAR(50) NOT NULL,
+	student_grad_year VARCHAR(10) NOT NULL,
+	student_email VARCHAR(50) UNIQUE NOT NULL
+)
+WITH (
+	FILLFACTOR = 90
+)
+TABLESPACE pg_default;
+
+CREATE TABLE emails(
+    student_email VARCHAR(50) UNIQUE PRIMARY KEY,
+	student_email_pass VARCHAR(50) UNIQUE NOT NULL
+	CONSTRAINT "FK_student_email" FOREIGN KEY ("student_email")
+		REFERENCES "students" ("student_email") MATCH SIMPLE
+		ON UPDATE CASCADE
+		ON DELETE RESTRICT
+		NOT VALID
+)
+WITH (
+	FILLFACTOR = 90
+)
+TABLESPACE pg_default;
+
+CREATE TABLE classes(
+	student_id CHAR(10) UNIQUE PRIMARY KEY,
+	class_one VARCHAR(50),
+	class_two VARCHAR(50),
+	class_three VARCHAR(50),
+	class_four VARCHAR(50),
+	class_five VARCHAR(50),
+	class_six VARCHAR(50)
+	
+)
+WITH (
+	FILLFACTOR = 90
+)
+TABLESPACE pg_default;
+
+CREATE TABLE grades(
+	student_id CHAR(10) UNIQUE PRIMARY KEY,
+	student_unweighted_gpa FLOAT(5) NOT NULL,
+	student_weighted_gpa VARCHAR(5),
+	student_gradebook_user VARCHAR(50) UNIQUE NOT NULL,
+	student_gradebook_pass VARCHAR(50) UNIQUE NOT NULL
+)
+WITH (
+	FILLFACTOR = 90
+)
+TABLESPACE pg_default;
+
+SELECT * FROM students
+SELECT * FROM emails
+SELECT * FROM classes
+SELECT * FROM grades
+
+INSERT INTO students(student_id, student_name, student_email, student_grad_year)
+VALUES
+('57396739', 'Clark Warren', '26schoolname029@gmail.com', '2026'),
+('39671939', 'Glenn Phillips', '23schoolname583@gmail.com', '2024'),
+('48572823', 'Susan Butler', '24schoolname937@gmail.com', '2024'),
+('57482938', 'Floyd Moran', '25schoolname398@gmail.com', '2025'),
+('10294859', 'Joann Fleming', '23schoolname475@gmail.com', '2023');
+
+SELECT * FROM student
+
+INSERT INTO emails(student_email, student_email_pass)
+VALUES
+('26schoolname029@gmail.com', '4LazyOrangeCats'),
+('23schoolname583@gmail.com', '8HappyBrownBears'),
+('24schoolname937@gmail.com', '9SadBlueSeals'),
+('25schoolname398@gmail.com', '2AngryRedHorses'),
+('23schoolname475@gmail.com', '3LaughingGreyBirds');
+
+SELECT * FROM emails
+
+INSERT INTO classes(student_id, class_one, class_two, class_four, class_five, class_six)
+VALUES
+('57396739', 'LA 1', 'World History Honors', 'Geometry Honors', 'Orchestra', 'Biology Honors'),
+('39671939', 'US History 2', 'LA 4', 'Pre Calc', 'AP Art History', 'Physics'),
+('48572823', 'AP US History', 'LA 3 Honors', 'AP Computer Science', 'Physics Honors', 'Pre Calc Honors'),
+('57482938', 'US History 1 Honors', 'LA 2', 'Psychology', 'Chem Honors', 'Advanced Algebra 2 Honors'),
+('10294859', 'AP Literature', 'Band', 'AP Calc 1', 'AP Physics 1', 'AP Government');
+
+SELECT * FROM classes
+
+INSERT INTO grades(student_id, student_unweighted_gpa, student_gradebook_user, student_gradebook_pass)
+VALUES
+('57396739', '4.0', '26Clark', 'oranges35'),
+('39671939', '3.3', '24Glenn', 'apples29'),
+('48572823', '3.6', '24Susan', 'bananas10'),
+('57482938', '2.9', '25Floyd', 'pasta44'),
+('10294859', '3.9', '23Joann', 'tomato87');
+
+SELECT * FROM grades
+
+UPDATE classes
+SET class_three = 'Gym'
+	WHERE class_three IS NULL;
+	
+SELECT * FROM classes
+
+ALTER TABLE grades DROP COLUMN student_weighted_gpa
+
+SELECT * FROM grades
+
+SELECT * FROM students
+INNER JOIN emails
+ON students.student_email = emails.student_email
+
+DROP TABLE emails
+
+SELECT student_grad_year FROM students
+GROUP BY student_grad_year
+
+SELECT student_grad_year FROM students
+ORDER BY student_grad_year
+
+SELECT COUNT(*) FROM grades
+WHERE student_unweighted_gpa IN ('4.0')
+
+SELECT student_unweighted_gpa FROM grades
+WHERE student_unweighted_gpa != '4.0'
+ORDER BY student_unweighted_gpa
+
+SELECT DISTINCT (class_one) FROM classes
+
+
+
+
+
+
+
+
+
+
